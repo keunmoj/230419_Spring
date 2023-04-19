@@ -1,0 +1,147 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Json Html</title>
+
+</head>
+<body>
+	<h1>Send JSON Test</h1>
+	<button id="sendEmp">Emp 보내기</button>
+	<button id="sendEmpList">Emp List 보내기</button>
+	
+	<br>
+	<h1>Receive JSON Test</h1>
+	<button id="receiveEmp">Emp 받기</button>
+	<button id="receiveEmpList">Emp List 받기</button>
+	
+	<h1>Receive LocalDateTime With Gson/ Jackson </h1>
+	<button id="receiveLocalDateTime">LocalDateTime 받기</button>
+	
+<script>
+// NO jQuery
+
+	var emp  = {
+		employeeId	: 1500, 
+		firstName  	: "Gil-Dong",
+		lastName	: "Hong",
+		email		: "hong@heroes.com",
+		hireDate	: "1500-05-18"
+	};
+
+	var empList  = [
+		{
+			employeeId	: 1600, 
+			firstName  	: "Chan-Ho",
+			lastName	: "Park",
+			email		: "hopark@heroes.com",
+			hireDate	: "1600-12-25"
+		},
+		{
+			employeeId	: 1953, 
+			firstName  	: "Boom",
+			lastName	: "Cha",
+			email		: "cha@heroes.com",
+			hireDate	: "1953-05-22"
+		},
+		{
+			employeeId	: 2001, 
+			firstName  	: "Gang-In",
+			lastName	: "Lee",
+			email		: "loveyou@heroes.com",
+			hireDate	: "2001-02-19"
+		}
+	];
+	
+	
+	window.onload = function(){
+		
+		document.querySelector("#sendEmp").onclick = async function(){
+			
+			let fetchOptions = {
+	          method: "POST",
+	          headers: {
+	        	  'Content-Type': 'application/json',
+	          },
+	          body: JSON.stringify(emp)
+	        }
+			
+			try{
+				let response = await fetch("/myapp/emp/", fetchOptions);
+				let data = await response.json();
+				console.log(data);
+			}catch(error){
+				console.error(error);
+			}
+		};
+		
+
+		document.querySelector("#sendEmpList").onclick = async function(){
+			
+			let fetchOptions = {
+	          method: "POST",
+	          headers: {
+	        	  'Content-Type': 'application/json',
+	          },
+	          body: JSON.stringify(empList)
+	        }
+			
+			try{
+				let response = await fetch("/myapp/empList/", fetchOptions)
+				let data = await response.json();
+				console.log(data);
+			}catch(error){
+				console.error(error);
+			}
+		};
+		
+		document.querySelector("#receiveEmp").onclick = async function(){
+			
+			let fetchOptions = {
+	          method: "GET",
+	        }
+			
+			try{
+				// EMM id = 12345 -> PathValuable
+				let response = await fetch("/myapp/empDetail/12345", fetchOptions) // fetchOption 생략 가능( default : GET )
+				let data = await response.json();
+				console.log(data);
+			}catch(error){
+				console.error(error);
+			}
+		};
+		
+		document.querySelector("#receiveEmpList").onclick = async function(){
+			
+			let fetchOptions = {
+	          method: "GET",
+	        }
+			
+			try{
+				let response = await fetch("/myapp/empList", fetchOptions) // fetchOption 생략 가능( default : GET )
+				let data = await response.json();
+				console.log(data);
+			}catch(error){
+				console.error(error);
+			}		
+
+		};
+		
+		document.querySelector("#receiveLocalDateTime").onclick = async function(){
+			
+			let fetchOptions = {
+	          method: "GET",
+	        }
+			
+			try{
+				let response = await fetch("/myapp/LocalDateTime", fetchOptions) // fetchOption 생략 가능( default : GET )
+				let data = await response.json();
+				console.log(data);
+			}catch(error){
+				console.error(error);
+			}		
+
+		};
+	};
+</script>
+</body>
+</html>
